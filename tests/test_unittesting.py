@@ -64,6 +64,13 @@ class FunctionTesting(WaterMarkUnitTestBase):
         # Delete file
         self.remove_file(output_filename)
 
+        # Checking only resize
+        job_function(input_img_path=input_image_path,
+                     output_dir=output_dir, output_size=(800, 600))
+
+        self.check_image_file(output_filename)
+        self.remove_file(output_filename)
+
         # Resize to 800x600
         wm_img = create_text_image(img_width=800, img_height=600, text="WIKIPEDIA")
         job_function(input_img_path=input_image_path, wm_img=wm_img,
@@ -76,6 +83,15 @@ class FunctionTesting(WaterMarkUnitTestBase):
         output_filename = output_filename.replace('.jpg', '.png')
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
+
+        # Checking only conversion
+        job_function(input_img_path=input_image_path,
+                     output_dir=output_dir, output_format='png')
+
+        self.check_image_file(output_filename)
+        self.remove_file(output_filename)
+
+
 
     def test_0401_validators(self):
         # Font validator
