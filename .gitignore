@@ -53,6 +53,7 @@ docs/_build/
 # PyBuilder
 target/
 
+files/build/*
 
 # OSX
 .DS_Store

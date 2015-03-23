@@ -97,7 +97,7 @@ class FunctionTesting(WaterMarkUnitTestBase):
         # Font validator
 
         fv = FontValidator()
-        assert fv('arial') == 'arial'
+        assert fv(None) in DEFAULT_FONTS
         with self.assertRaises(argparse.ArgumentTypeError):
             fv('non_existing')
 
