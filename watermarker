@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+import argparse
+import logging
+import logging.config
+
+from functools import partial
+from multiprocessing import Pool
+
+from watermark.logutils import LOGGING_CONFIG
+from watermark.job import job_function
+from watermark.color import Color
+from watermark.constants import RelativePosition, IMAGE_FORMATS
+from watermark.validator import (
+    ExistingFileOrDirType, ExistingDirType, ColorValidator,
+    ExistingFileType, ImageSizeValidator, FontValidator,
+)
+from watermark.workflow import (
+    preprocess,
+    create_text_image, identify
+)
+
+
+desc = """
+A CLI tool for watermarking, converting and resizing images in bulk
+"""
+
+# Set logging
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger('watermark')
+
+
+def main(input_dir=None, wm_image=None, wm_position=None, wm_text=None,
+         wm_text_color=None, output_dir=None, output_size=None,
+         output_format=None, wm_text_font=None, workers=None, logging_level=None
+):
+    if logging_level:
+        logger.setLevel(getattr(logging, logging_level))
+    # Nothing to do check
+    if not (wm_image or wm_text or output_size or output_format):
+        msg = "No operation specified, Exiting"
+        logger.critical(msg)
+        exit(1)
+
+    # Create workflow
+    logger.info("Getting list of images: %s" % input_dir)
+    input_image_paths = identify(input_dir)
+    # Image watermarking flow
+    wm_img = None
+    if input_image_paths and wm_image and wm_position:
+        wm_img = preprocess(identify(wm_image)[0])
+        logger.info("Setting Watermark image: %s" % wm_img.__dict__.get('filename'))
+
+    # Text watermarking flow
+    elif input_image_paths and wm_text and wm_text_color:
+        # TODO: Remove hardcoding
+        wm_img = create_text_image(img_width=640, img_height=480, text=wm_text, font=wm_text_font,
+                                   font_color=wm_text_color)
+
+    partial_job = partial(job_function, output_size=output_size,
+                          output_format=output_format, output_dir=output_dir,
+                          wm_img=wm_img, wm_position=wm_position
+
+    )
+
+    # Multiprocess Water marking
+    p = Pool(processes=workers)
+    p.map(partial_job, input_image_paths)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description=desc)
+    parser.add_argument('input_dir', help="A single image file/ Directory of images to watermark",
+                        type=ExistingFileOrDirType())
+    watermark_types = parser.add_mutually_exclusive_group(required=False)
+    # Watermark Image
+    watermark_types.add_argument('--wm-image',
+                                 help="Image used for watermarking. Supported types: %s" % ','.join(IMAGE_FORMATS[0]),
+                                 type=ExistingFileType())
+
+    # Text and position
+    relative_positions = RelativePosition.all()
+    parser.add_argument('--wm-position', default="BOTTOM_RIGHT",
+                        help="Position of watermark on image. Default: 'BOTTOM_RIGHT'. Allowed Values: {%s}" % relative_positions,
+                        choices=relative_positions, metavar='')
+    watermark_types.add_argument('--wm-text', help="Text to watermark eg: (c) SomeCompany")
+
+    parser.add_argument('--wm-text-color',
+                        help="Watermark text color. Default: white. Eg: black, '#f0f0f0' etc",
+                        default=Color('white').get_dec_rgba(),
+                        type=ColorValidator())
+    parser.add_argument('--wm-text-font',
+                        help="Watermark text font Eg: 'arial' or 'Comic Sans MS'", default='arial',
+                        type=FontValidator())
+    parser.add_argument('output_dir', help="Output images directory", type=ExistingDirType())
+    parser.add_argument('--output-size', help="Output Width & Height: Eg: 800x600 or 50%%",
+                        type=ImageSizeValidator())
+    parser.add_argument('--output-format', help="Output format. Allowed types: %s" % (','.join(IMAGE_FORMATS[1])),
+                        choices=IMAGE_FORMATS[1], metavar='')
+    parser.add_argument('--workers', help="Number of worker processes Default: 4", default=4, type=int)
+    # Logging confif
+    logging_options = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+    parser.add_argument('--logging-level',
+                        help="Logging level. Default: 'INFO'. Allowed: %s" % logging_options,
+                        choices=logging_options,
+                        default='INFO', metavar='')
+    main(**vars(parser.parse_args(sys.argv[1:])))

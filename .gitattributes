@@ -1,0 +1,6 @@
+# Defines files and directories that should not be deployed
+.gitignore              export-ignore
+.gitattributes          export-ignore
+tests/                  export-ignore
+requirements-devel.txt  export-ignore
+run_tests.sh            export-ignore
