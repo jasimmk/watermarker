@@ -14,7 +14,7 @@ class ConstantType(type):
                     new_attrs[k] = k
             else:
                 new_attrs[aname] = aval
-        return super(ConstantType, cls).__new__(cls, name, bases, new_attrs)
+        return type.__new__(cls, name, bases, new_attrs)
 
 
 class Position:
