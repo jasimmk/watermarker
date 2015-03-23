@@ -3,9 +3,9 @@ python:
   - "3.3"
   - "2.7"
   - "2.6"
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+before_install:
+    - sudo apt-get install libjpeg-dev
 install:
-    - apt-get install libjpeg-dev
-    - pip install -r requirements.txt
+    - sudo pip install -r requirements.txt
     - pip install -r requirements-devel.txt
 script: ./run_tests.sh
