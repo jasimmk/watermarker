@@ -46,6 +46,7 @@ def job_function(input_img_path, output_dir, wm_img=None,
                 percent = output_size[0]
             else:
                 width, height = output_size
+
             w_im = resize(w_im, percent=percent, width=width,
                           height=height, resample=Image.ANTIALIAS,
                           keep_filename=True)

@@ -91,7 +91,7 @@ if __name__ == '__main__':
                         default=Color('white').get_dec_rgba(),
                         type=ColorValidator())
     parser.add_argument('--wm-text-font',
-                        help="Watermark text font Eg: 'arial' or 'Comic Sans MS'", default='arial',
+                        help="Watermark text font Eg: 'arial' or 'Comic Sans MS'",
                         type=FontValidator())
     parser.add_argument('output_dir', help="Output images directory", type=ExistingDirType())
     parser.add_argument('--output-size', help="Output Width & Height: Eg: 800x600 or 50%%",
