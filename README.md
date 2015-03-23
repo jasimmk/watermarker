@@ -11,7 +11,11 @@ a.  Clone git repository
 ```
 git clone git@github.com:jasimmk/watermarker.git
 ```
-b. Install requirmentents
+b. Install requirements
+
+You might need to install external libraries for image processing to work. For more details, have a look at http://pillow.readthedocs.org/en/latest/installation.html#external-libraries
+
+Note: To be on the safe side, you should install the above-said libraries before you run the below command.
 
 ```
 pip install -r requirements.txt
@@ -49,7 +53,7 @@ optional arguments:
                         Watermark text color. Default: white. Eg: black,
                         '#f0f0f0' etc
   --wm-text-font WM_TEXT_FONT
-                        Watermark text font Eg: 'arial' or 'Comic Sans MS'
+                        Watermark text font Eg: 'arial' or 'Comic Sans MS' or 'Ubuntu-M'
   --output-size OUTPUT_SIZE
                         Output Width & Height: Eg: 800x600 or 50%
   --output-format       Output format. Allowed types: png,jpg,gif

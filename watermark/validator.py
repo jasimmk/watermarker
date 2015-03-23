@@ -8,13 +8,26 @@ from PIL import ImageFont
 from watermark.color import Color
 
 
+DEFAULT_FONTS = ['arial', 'Ubuntu-M', 'Times New Roman']
+
+
 class FontValidator(object):
     def __call__(self, font_string):
-        try:
-            ImageFont.truetype(font_string, size=0)
-            return font_string
-        except Exception as e:
-            raise argparse.ArgumentTypeError("True type Font: %s is not Installed / Not available" % font_string)
+        if font_string:
+            try:
+                ImageFont.truetype(font_string, size=0)
+                return font_string
+            except Exception as e:
+                raise argparse.ArgumentTypeError("True type Font: %s is not Installed / Not available" % font_string)
+
+        for font in DEFAULT_FONTS:
+            try:
+                ImageFont.truetype(font, size=0)
+                return font
+            except Exception as e:
+                pass
+
+        raise argparse.ArgumentTypeError("True type Font: None of the default fonts are Installed. -> " % str(DEFAULT_FONTS))
 
 
 class ColorValidator(object):
@@ -93,4 +106,3 @@ class ExistingDirType(object):
             return name_string
 
         raise argparse.ArgumentTypeError("Output directory doesn't exists. Please create one")
-
