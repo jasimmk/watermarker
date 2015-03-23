@@ -32,6 +32,7 @@ def job_function(input_img_path, output_dir, wm_img=None,
     """
     try:
         input_img = preprocess(input_img_path)
+        w_im = input_img
 
         posx, posy = RelativePosition.split(wm_position)
         if wm_img is not None:
