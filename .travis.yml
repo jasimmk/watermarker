@@ -7,5 +7,5 @@ before_install:
     - sudo apt-get install libjpeg-dev
 install:
     - sudo pip install -r requirements.txt
-    - pip install -r requirements-devel.txt
+    - sudo pip install -r requirements-devel.txt
 script: ./run_tests.sh
