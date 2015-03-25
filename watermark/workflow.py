@@ -7,7 +7,7 @@ from PIL import Image, ImageFont, ImageDraw
 
 from watermark.logutils import log_start
 from watermark.color import Color
-from watermark.constants import Size, Position, IMAGE_FORMATS
+from watermark.constants import Size, Position, IMAGE_FORMATS, MASK_AVAILABLE_MODES
 from watermark.utils import get_watermark_box, get_new_filepath
 
 
@@ -155,7 +155,10 @@ def image_watermark(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT):
     box = get_watermark_box(im, wmim, posx=posx, posy=posy)
     # TODO: Why no perfect boxing?
     box = box[:2]
-    im.paste(wmim, box, wmim)
+    paste_args = (wmim, box)
+    if wmim.mode in MASK_AVAILABLE_MODES:
+        paste_args = (wmim, box, wmim)
+    im.paste(*paste_args)
     return im
 
 
