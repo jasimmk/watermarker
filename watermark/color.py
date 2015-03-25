@@ -31,5 +31,3 @@ class Color(_Color):
         """
         rgb = tuple(v / 255 for v in value[:3])
         self.hsl = rgb2hsl(rgb)
-
-

@@ -2,7 +2,6 @@
 Multiprocessing job distribution
 """
 import logging
-import json
 
 from PIL import Image
 
@@ -18,8 +17,7 @@ logger = logging.getLogger('watermark.job')
 @log_start(logger)
 def job_function(input_img_path, output_dir, wm_img=None,
                  output_size=None, output_format=None,
-                 wm_position=RelativePosition.BOTTOM_RIGHT
-):
+                 wm_position=RelativePosition.BOTTOM_RIGHT):
     """
     A watermarking/resizing/conversion job is created and distributed between multiple processes
 

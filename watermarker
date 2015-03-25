@@ -33,8 +33,7 @@ logger = logging.getLogger('watermark')
 
 def main(input_dir=None, wm_image=None, wm_position=None, wm_text=None,
          wm_text_color=None, output_dir=None, output_size=None,
-         output_format=None, wm_text_font=None, workers=None, logging_level=None
-):
+         output_format=None, wm_text_font=None, workers=None, logging_level=None):
     if logging_level:
         logger.setLevel(getattr(logging, logging_level))
     # Nothing to do check
@@ -60,9 +59,7 @@ def main(input_dir=None, wm_image=None, wm_position=None, wm_text=None,
 
     partial_job = partial(job_function, output_size=output_size,
                           output_format=output_format, output_dir=output_dir,
-                          wm_img=wm_img, wm_position=wm_position
-
-    )
+                          wm_img=wm_img, wm_position=wm_position)
 
     # Multiprocess Water marking
     p = Pool(processes=workers)
