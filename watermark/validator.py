@@ -17,14 +17,14 @@ class FontValidator(object):
             try:
                 ImageFont.truetype(font_string, size=0)
                 return font_string
-            except Exception as e:
+            except Exception:
                 raise argparse.ArgumentTypeError("True type Font: %s is not Installed / Not available" % font_string)
 
         for font in DEFAULT_FONTS:
             try:
                 ImageFont.truetype(font, size=0)
                 return font
-            except Exception as e:
+            except Exception:
                 pass
 
         raise argparse.ArgumentTypeError("True type Font: None of the default fonts are Installed. -> " % str(DEFAULT_FONTS))

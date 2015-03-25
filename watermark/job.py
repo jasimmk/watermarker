@@ -2,7 +2,6 @@
 Multiprocessing job distribution
 """
 import logging
-import json
 
 from PIL import Image
 
