@@ -1,13 +1,14 @@
 """
 Constants
 """
+from six import with_metaclass, iteritems
 
 
 class ConstantType(type):
     # Meta class for constant definition
     def __new__(cls, name, bases, attrs):
         new_attrs = {}
-        for aname, aval in attrs.iteritems():
+        for aname, aval in iteritems(attrs):
             # Avoid Inheritance and mro
             if aname == '_consts':
                 for k in aval:
@@ -17,19 +18,17 @@ class ConstantType(type):
         return type.__new__(cls, name, bases, new_attrs)
 
 
-class Position:
+class Position(with_metaclass(ConstantType)):
     """
     Position constants
     """
-    __metaclass__ = ConstantType
     _consts = ('TOP', 'LEFT', 'RIGHT', 'BOTTOM', 'CENTER')
 
 
-class RelativePosition:
+class RelativePosition(with_metaclass(ConstantType)):
     """
     Relative position of watermark based on image
     """
-    __metaclass__ = ConstantType
     _consts = ('TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'CENTER_LEFT', 'CENTER_CENTER', 'CENTER_RIGHT', 'BOTTOM_LEFT',
                'BOTTOM_CENTER', 'BOTTOM_RIGHT')
 
