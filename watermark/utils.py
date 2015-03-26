@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, division
 
 import logging
 # Helper functions
@@ -45,8 +45,8 @@ def get_watermark_box(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT, wmspa
     delta_width = im.size[0] - wmim.size[0]
     delta_height = im.size[1] - wmim.size[1]
 
-    width_spacing = int(round(wmspacing * im.size[0]))
-    height_spacing = int(round(wmspacing * im.size[1]))
+    width_spacing = wmspacing * im.size[0]
+    height_spacing = wmspacing * im.size[1]
 
     if posx is Position.LEFT:
         left = width_spacing
@@ -55,7 +55,7 @@ def get_watermark_box(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT, wmspa
         right = im.size[0] - width_spacing
         left = right - wmim.size[0]
     else:
-        left = int(round(delta_width / 2))
+        left = delta_width / 2
         right = im.size[0] - left
 
     if posy is Position.TOP:
@@ -73,4 +73,5 @@ def get_watermark_box(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT, wmspa
     for i, item in enumerate(result):
         if item < 0:
             raise ValueError("Watermark image is larger than source image, Skipping")
+        result[i] = int(round(item))
     return tuple(result)
