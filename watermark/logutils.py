@@ -36,11 +36,13 @@ def log_start(logger):
     """
     Debug functions
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             logger.debug('Calling: %s with: args: %s, kwargs:%s' % (func.__name__, args, kwargs))
             return func(*args, **kwargs)
+
         return wrapper
 
     return decorator
