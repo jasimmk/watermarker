@@ -8,7 +8,7 @@ from PIL import ImageFont
 from watermark.color import Color
 
 
-DEFAULT_FONTS = ['arial', 'Ubuntu-M', 'Times New Roman']
+DEFAULT_FONTS = ['arial', 'Ubuntu', 'Times New Roman', './res/Ubuntu-M.ttf']
 
 
 class FontValidator(object):
@@ -27,7 +27,8 @@ class FontValidator(object):
             except Exception:
                 pass
 
-        raise argparse.ArgumentTypeError("True type Font: None of the default fonts are Installed. -> " % str(DEFAULT_FONTS))
+        raise argparse.ArgumentTypeError(
+            "True type Font: None of the default fonts are Installed. -> " % str(DEFAULT_FONTS))
 
 
 class ColorValidator(object):
