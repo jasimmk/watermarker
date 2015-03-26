@@ -6,6 +6,7 @@ import os
 from PIL import Image, ImageFont, ImageDraw
 
 from watermark.logutils import log_start
+from watermark.validator import FontValidator
 from watermark.color import Color
 from watermark.constants import Size, Position, IMAGE_FORMATS, MASK_AVAILABLE_MODES
 from watermark.utils import get_watermark_box, get_new_filepath
@@ -40,13 +41,15 @@ def create_text_image(
         color = Color('white')
         font_color = color.get_dec_rgba()
     if font is None:
-        font = 'arial'
+        fv = FontValidator()
+        font = fv(font_string=None)
     img_size = (img_width * 4, img_height * 4)
     img = Image.new("RGBA", img_size, img_bg)
     try:
         font_obj = ImageFont.truetype(font, size=font_size)
     except IOError:
         logging.critical("Error loading Font: %s" % font)
+        raise
     if font_size is Size.AUTO:
         # REF: http://bit.ly/1BlAkg0
         while font_obj.getsize(text)[0] < img_size[0]:
