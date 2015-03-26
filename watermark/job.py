@@ -17,7 +17,8 @@ logger = logging.getLogger('watermark.job')
 @log_start(logger)
 def job_function(input_img_path, output_dir, wm_img=None,
                  output_size=None, output_format=None,
-                 wm_position=RelativePosition.BOTTOM_RIGHT):
+                 wm_position=RelativePosition.BOTTOM_RIGHT, raise_errors=False
+):
     """
     A watermarking/resizing/conversion job is created and distributed between multiple processes
 
@@ -27,6 +28,7 @@ def job_function(input_img_path, output_dir, wm_img=None,
     :param output_dir: Output directory
     :param wm_img: watermark image, PIL.Image object
     :param wm_position: Position of Watermark
+    :param raise_errors: When processing in parallel. We only need to log the issues
     """
     try:
         input_img = preprocess(input_img_path)
@@ -51,3 +53,5 @@ def job_function(input_img_path, output_dir, wm_img=None,
         post_process(w_im, output_dir, output_format)
     except Exception as e:
         logger.critical("%s" % e)
+        if raise_errors:
+            raise

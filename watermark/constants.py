@@ -64,3 +64,4 @@ class Size:
 
 # Input and Output supported formats
 IMAGE_FORMATS = (('png', 'jpg', 'jpeg', 'gif', 'bmp', 'eps', 'webp', 'psd'), ('png', 'jpg', 'gif'))
+MASK_AVAILABLE_MODES = ("1", "L", "RGBA")

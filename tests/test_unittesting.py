@@ -34,10 +34,10 @@ class FunctionTesting(WaterMarkUnitTestBase):
         assert Size.AUTO is 0
 
     def test_0301_job_testing(self):
-        wm_img = preprocess(self.get_watermark_file())
+        wm_png_img = preprocess(self.get_watermark_png_with_alpha_file())
         input_image_path = self.get_image_file()
         output_dir = self.get_output_dir()
-        job_function(input_img_path=input_image_path, wm_img=wm_img, output_dir=output_dir, output_size=[50])
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img, output_dir=output_dir, output_size=[50])
         output_filename = os.path.join(self.get_output_dir(), self.get_image_filename())
         self.check_image_file(output_filename)
         # Delete file
@@ -45,7 +45,7 @@ class FunctionTesting(WaterMarkUnitTestBase):
 
         # Check CENTER_CENTER POSITION
 
-        job_function(input_img_path=input_image_path, wm_img=wm_img,
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img,
                      output_dir=output_dir, wm_position=RelativePosition.CENTER_CENTER)
 
         self.check_image_file(output_filename)
@@ -53,11 +53,11 @@ class FunctionTesting(WaterMarkUnitTestBase):
         self.remove_file(output_filename)
 
         # Check CENTER_LEFT POSITION
-        job_function(input_img_path=input_image_path, wm_img=wm_img,
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img,
                      output_dir=output_dir, wm_position=RelativePosition.CENTER_LEFT)
 
         # Check TOP_RIGHT POSITION
-        job_function(input_img_path=input_image_path, wm_img=wm_img,
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img,
                      output_dir=output_dir, wm_position=RelativePosition.TOP_RIGHT)
 
         self.check_image_file(output_filename)
@@ -71,14 +71,19 @@ class FunctionTesting(WaterMarkUnitTestBase):
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
 
+
+        # Checking text with CENTER_CENTER
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img,
+                     output_dir=output_dir, wm_position=RelativePosition.CENTER_CENTER)
+
+        self.check_image_file(output_filename)
+        self.remove_file(output_filename)
+
         # Resize to 800x600
-        wm_img = create_text_image(img_width=800, img_height=600, text="WIKIPEDIA")
-        job_function(input_img_path=input_image_path, wm_img=wm_img,
+        wm_png_img = create_text_image(img_width=800, img_height=600, text="WIKIPEDIA")
+        job_function(input_img_path=input_image_path, wm_img=wm_png_img,
                      output_dir=output_dir, output_format='png',
                      output_size=(800, 600))
-        # Checking text with CENTER_CENTER
-        job_function(input_img_path=input_image_path, wm_img=wm_img,
-                     output_dir=output_dir, wm_position=RelativePosition.CENTER_CENTER)
 
         output_filename = output_filename.replace('.jpg', '.png')
         self.check_image_file(output_filename)
@@ -91,7 +96,13 @@ class FunctionTesting(WaterMarkUnitTestBase):
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
 
+        # Checking bad transparency issues, for watermark images without alpha transparency
+        wm_jpg_img = preprocess(self.get_watermark_jpg_file())
+        job_function(input_img_path=input_image_path, wm_img=wm_jpg_img,
+                     output_dir=output_dir, output_format='png', raise_errors=True)
 
+        self.check_image_file(output_filename)
+        self.remove_file(output_filename)
 
     def test_0401_validators(self):
         # Font validator
