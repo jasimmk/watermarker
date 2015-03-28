@@ -8,7 +8,10 @@ from PIL import Image, ImageFont, ImageDraw
 from watermark.logutils import log_start
 from watermark.validator import FontValidator
 from watermark.color import Color
-from watermark.constants import Size, Position, IMAGE_FORMATS, MASK_AVAILABLE_MODES
+from watermark.constants import (
+    Size, Position,
+    IMAGE_FORMATS, MASK_AVAILABLE_MODES
+)
 from watermark.utils import get_watermark_box, get_new_filepath
 
 
@@ -77,17 +80,20 @@ def identify(path_or_file):
     files = []
 
     # Included capitalized formats
-    supported_formats = set(IMAGE_FORMATS[0] + tuple(map(lambda x: x.upper(), IMAGE_FORMATS[0])))
+    supported_formats = set(
+        IMAGE_FORMATS[0] + tuple(map(lambda x: x.upper(), IMAGE_FORMATS[0])))
     if os.path.isdir(path_or_file):
         for img_format in supported_formats:
-            files.extend(glob.iglob(os.path.join(path_or_file, '*.%s' % img_format)))
+            files.extend(
+                glob.iglob(os.path.join(path_or_file, '*.%s' % img_format)))
     elif os.path.isfile(path_or_file):
         # If its a single file, ignoring file extensions
         files = [path_or_file]
     if files:
         return files
 
-    raise IOError("%s: No image files have been scheduled for processing" % path_or_file)
+    raise IOError(
+        "%s: No image files have been scheduled for processing" % path_or_file)
 
 
 def preprocess(img_file_path):
@@ -104,7 +110,8 @@ def preprocess(img_file_path):
 
 
 @log_start(logger)
-def resize(im, percent=None, width=None, height=None, resample=Image.NEAREST, keep_filename=False):
+def resize(im, percent=None, width=None, height=None,
+           resample=Image.NEAREST, keep_filename=False):
     """
     Resizes images to certain percentage or defined width & height.
     If percent is defined, width and height gets ignored

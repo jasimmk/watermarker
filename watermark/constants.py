@@ -6,6 +6,7 @@ from six import with_metaclass, iteritems
 
 class ConstantType(type):
     # Meta class for constant definition
+
     def __new__(cls, name, bases, attrs):
         new_attrs = {}
         for aname, aval in iteritems(attrs):
@@ -29,7 +30,8 @@ class RelativePosition(with_metaclass(ConstantType)):
     """
     Relative position of watermark based on image
     """
-    _consts = ('TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'CENTER_LEFT', 'CENTER_CENTER', 'CENTER_RIGHT', 'BOTTOM_LEFT',
+    _consts = ('TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'CENTER_LEFT',
+               'CENTER_CENTER', 'CENTER_RIGHT', 'BOTTOM_LEFT',
                'BOTTOM_CENTER', 'BOTTOM_RIGHT')
 
     @classmethod
@@ -52,7 +54,8 @@ class RelativePosition(with_metaclass(ConstantType)):
         Return all constants
         """
         # upper case attributes are all constants
-        return [key for key in cls.__dict__.keys() if ord('A') < ord(key[0]) < ord('Z')]
+        return [key for key in cls.__dict__.keys()
+                if ord('A') < ord(key[0]) < ord('Z')]
 
 
 class Size:
@@ -62,5 +65,8 @@ class Size:
     AUTO = 0
 
 # Input and Output supported formats
-IMAGE_FORMATS = (('png', 'jpg', 'jpeg', 'gif', 'bmp', 'eps', 'webp', 'psd'), ('png', 'jpg', 'gif'))
+IMAGE_FORMATS = (
+    ('png', 'jpg', 'jpeg', 'gif', 'bmp', 'eps', 'webp', 'psd'),
+    ('png', 'jpg', 'gif')
+)
 MASK_AVAILABLE_MODES = ("1", "L", "RGBA")

@@ -29,7 +29,8 @@ def get_new_filepath(file_path, new_path, ext=None):
     return os.path.join(new_path, filename)
 
 
-def get_watermark_box(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT, wmspacing=.037):
+def get_watermark_box(im, wmim, posy=Position.BOTTOM,
+                      posx=Position.RIGHT, wmspacing=.037):
     """
     Get box sizes of watermark image and sends back box and location
     :param im:
@@ -72,6 +73,7 @@ def get_watermark_box(im, wmim, posy=Position.BOTTOM, posx=Position.RIGHT, wmspa
     # Validating
     for i, item in enumerate(result):
         if item < 0:
-            raise ValueError("Watermark image is larger than source image, Skipping")
+            raise ValueError(
+                "Watermark image is larger than source image, Skipping")
         result[i] = int(round(item))
     return tuple(result)

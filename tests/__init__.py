@@ -12,6 +12,7 @@ BUILD_FOLDER = os.path.join(FILES_PATH, 'build')
 
 
 class WaterMarkUnitTestBase(unittest.TestCase):
+
     def get_image_filename(self):
         return IMAGE_FILENAME
 

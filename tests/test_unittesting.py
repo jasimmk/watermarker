@@ -1,6 +1,5 @@
 import pickle
 
-
 from tests import WaterMarkUnitTestBase
 from watermark.constants import RelativePosition
 from watermark.job import job_function
@@ -25,8 +24,10 @@ class FunctionTesting(WaterMarkUnitTestBase):
         assert RelativePosition.CENTER_CENTER == 'CENTER_CENTER'
         # all test
 
-        assert all(x in RelativePosition.all() for x in ['CENTER_CENTER', 'BOTTOM_RIGHT', 'BOTTOM_CENTER'])
-        assert all(x in (Position.TOP, Position.LEFT) for x in RelativePosition.split('TOP_LEFT'))
+        assert all(x in RelativePosition.all()
+                   for x in ['CENTER_CENTER', 'BOTTOM_RIGHT', 'BOTTOM_CENTER'])
+        assert all(x in (Position.TOP, Position.LEFT)
+                   for x in RelativePosition.split('TOP_LEFT'))
         with self.assertRaises(ValueError):
             RelativePosition.split('some_unknown_value')
         assert Size.AUTO is 0
@@ -37,8 +38,12 @@ class FunctionTesting(WaterMarkUnitTestBase):
 
         input_image_path = self.get_image_file()
         output_dir = self.get_output_dir()
-        job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img, output_dir=output_dir, output_size=[50])
-        output_filename = os.path.join(self.get_output_dir(), self.get_image_filename())
+        job_function(
+            input_img_path=input_image_path, wm_img=wm_picked_png_img,
+            output_dir=output_dir, output_size=[50]
+        )
+        output_filename = os.path.join(
+            self.get_output_dir(), self.get_image_filename())
         self.check_image_file(output_filename)
         # Delete file
         self.remove_file(output_filename)
@@ -46,19 +51,21 @@ class FunctionTesting(WaterMarkUnitTestBase):
         # Check CENTER_CENTER POSITION
 
         job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img,
-                     output_dir=output_dir, wm_position=RelativePosition.CENTER_CENTER)
-
+                     output_dir=output_dir,
+                     wm_position=RelativePosition.CENTER_CENTER)
         self.check_image_file(output_filename)
         # Delete file
         self.remove_file(output_filename)
 
         # Check CENTER_LEFT POSITION
         job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img,
-                     output_dir=output_dir, wm_position=RelativePosition.CENTER_LEFT)
+                     output_dir=output_dir,
+                     wm_position=RelativePosition.CENTER_LEFT)
 
         # Check TOP_RIGHT POSITION
         job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img,
-                     output_dir=output_dir, wm_position=RelativePosition.TOP_RIGHT)
+                     output_dir=output_dir,
+                     wm_position=RelativePosition.TOP_RIGHT)
 
         self.check_image_file(output_filename)
         # Delete file
@@ -71,16 +78,17 @@ class FunctionTesting(WaterMarkUnitTestBase):
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
 
-
         # Checking text with CENTER_CENTER
         job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img,
-                     output_dir=output_dir, wm_position=RelativePosition.CENTER_CENTER)
+                     output_dir=output_dir,
+                     wm_position=RelativePosition.CENTER_CENTER)
 
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
 
         # Resize to 800x600
-        wm_picked_png_img = create_text_image(img_width=800, img_height=600, text="WIKIPEDIA")
+        wm_picked_png_img = create_text_image(
+            img_width=800, img_height=600, text="WIKIPEDIA")
         wm_picked_png_img = pickle.dumps(wm_picked_png_img)
 
         job_function(input_img_path=input_image_path, wm_img=wm_picked_png_img,
@@ -98,11 +106,13 @@ class FunctionTesting(WaterMarkUnitTestBase):
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
 
-        # Checking bad transparency issues, for watermark images without alpha transparency
+        # Checking bad transparency issues, for watermark images without alpha
+        # transparency
         wm_jpg_img = preprocess(self.get_watermark_jpg_file())
         wm_picked_jpg_img = pickle.dumps(wm_jpg_img)
         job_function(input_img_path=input_image_path, wm_img=wm_picked_jpg_img,
-                     output_dir=output_dir, output_format='png', raise_errors=True)
+                     output_dir=output_dir, output_format='png',
+                     raise_errors=True)
 
         self.check_image_file(output_filename)
         self.remove_file(output_filename)
