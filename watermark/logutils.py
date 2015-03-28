@@ -7,7 +7,8 @@ LOGGING_CONFIG = {
     'disable_existing_loggers': True,
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(levelname)s %(name)s %(process)d  %(message)s'
+            'format': '%(asctime)s %(levelname)s %(name)s \
+            %(process)d  %(message)s'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -40,7 +41,8 @@ def log_start(logger):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logger.debug('Calling: %s with: args: %s, kwargs:%s' % (func.__name__, args, kwargs))
+            logger.debug('Calling: %s with: args: %s, kwargs:%s' %
+                         (func.__name__, args, kwargs))
             return func(*args, **kwargs)
 
         return wrapper

@@ -4,6 +4,7 @@ import sys
 import argparse
 import logging
 import logging.config
+import pickle
 
 from functools import partial
 from multiprocessing import Pool
@@ -57,6 +58,8 @@ def main(input_dir=None, wm_image=None, wm_position=None, wm_text=None,
         wm_img = create_text_image(img_width=640, img_height=480, text=wm_text, font=wm_text_font,
                                    font_color=wm_text_color)
 
+    if wm_img:
+        wm_img = pickle.dumps(wm_img)
     partial_job = partial(job_function, output_size=output_size,
                           output_format=output_format, output_dir=output_dir,
                           wm_img=wm_img, wm_position=wm_position)

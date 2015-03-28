@@ -18,7 +18,9 @@ class FontValidator(object):
                 ImageFont.truetype(font_string, size=0)
                 return font_string
             except Exception:
-                raise argparse.ArgumentTypeError("True type Font: %s is not Installed / Not available" % font_string)
+                raise argparse.ArgumentTypeError(
+                    "True type Font: %s is not Installed /"
+                    " Not available" % font_string)
 
         for font in DEFAULT_FONTS:
             try:
@@ -28,7 +30,8 @@ class FontValidator(object):
                 pass
 
         raise argparse.ArgumentTypeError(
-            "True type Font: None of the default fonts are Installed. -> " % str(DEFAULT_FONTS))
+            "True type Font: None of the default fonts "
+            "are Installed. -> " % str(DEFAULT_FONTS))
 
 
 class ColorValidator(object):
@@ -52,15 +55,19 @@ class ExistingFileOrDirType(object):
     """
 
     def __call__(self, name_string):
-        # TODO: the Integrate - for chaining; special argument "-" means sys.std{in,out}
+        # TODO: the Integrate - for chaining; special argument "-" means
+        # sys.std{in,out}
         if os.path.exists(name_string):
             return name_string
-        raise argparse.ArgumentTypeError("Expecting an existing image file/ Directory")
+        raise argparse.ArgumentTypeError(
+            "Expecting an existing image file/ Directory")
 
 
 class ImageSizeValidator(object):
     """
-    Checks the image sizes are in defined format, either in width height/ percentage
+    Checks the image sizes are in defined format, either in
+    width height/ percentage
+
     Eg: 800x600
         50%
     """
@@ -81,7 +88,8 @@ class ImageSizeValidator(object):
                 pass
         except Exception:
             pass
-        raise argparse.ArgumentTypeError("Invalid size specified: Eg1: 800x600, Eg2: 75%")
+        raise argparse.ArgumentTypeError(
+            "Invalid size specified: Eg1: 800x600, Eg2: 75%")
 
 
 class ExistingFileType(object):
@@ -106,4 +114,5 @@ class ExistingDirType(object):
         if os.path.isdir(name_string):
             return name_string
 
-        raise argparse.ArgumentTypeError("Output directory doesn't exists. Please create one")
+        raise argparse.ArgumentTypeError(
+            "Output directory doesn't exists. Please create one")
