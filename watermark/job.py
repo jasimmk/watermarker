@@ -2,6 +2,7 @@
 Multiprocessing job distribution
 """
 import logging
+import pickle
 
 from PIL import Image
 
@@ -32,11 +33,12 @@ def job_function(input_img_path, output_dir, wm_img=None,
     """
     try:
         input_img = preprocess(input_img_path)
-        w_im = input_img
+        output_img = input_img
 
         posx, posy = RelativePosition.split(wm_position)
         if wm_img is not None:
-            w_im = image_watermark(input_img, wm_img, posx=posx, posy=posy)
+            wm_img = pickle.loads(wm_img)
+            output_img = image_watermark(input_img, wm_img, posx=posx, posy=posy)
         # Image resizing flow
         if output_size:
             percent = None
@@ -47,10 +49,10 @@ def job_function(input_img_path, output_dir, wm_img=None,
             else:
                 width, height = output_size
 
-            w_im = resize(w_im, percent=percent, width=width,
+            output_img = resize(output_img, percent=percent, width=width,
                           height=height, resample=Image.ANTIALIAS,
                           keep_filename=True)
-        post_process(w_im, output_dir, output_format)
+        post_process(output_img, output_dir, output_format)
     except Exception as e:
         logger.critical("%s" % e)
         if raise_errors:
