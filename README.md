@@ -3,6 +3,7 @@
 #####Project Status
 ![Project Status](http://img.shields.io/badge/Project%20Stage-Experimental-yellow.svg)
 [![Build Status](https://travis-ci.org/jasimmk/watermarker.svg?branch=master)](https://travis-ci.org/jasimmk/watermarker) [![Coverage Status](https://coveralls.io/repos/jasimmk/watermarker/badge.svg)](https://coveralls.io/r/jasimmk/watermarker)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjasimmk%2Fwatermarker.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjasimmk%2Fwatermarker?ref=badge_shield)
 
 A CLI tool for watermarking, converting and resizing images in bulk.  Created for mass watermarking  photos of KochiPython meetup group.  Whether you are a photographer, blogger, professional  this tool might be highly helpful for you to automate batch processing of images
 
@@ -109,3 +110,6 @@ optional arguments:
 
 ##LICENCE
 Provided under MIT Licence
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjasimmk%2Fwatermarker.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjasimmk%2Fwatermarker?ref=badge_large)
